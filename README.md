@@ -1,1 +1,1 @@
-# Launcher-Velopack-Tests
+# Velopack tests
