@@ -1,6 +1,0 @@
-
-
-sRGB main(sRGB Over, sRGB Under)
-{
-    return abs(Over - Under);
-}

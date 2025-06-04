@@ -1,6 +1,0 @@
-
-
-sRGB_PremultipliedA main(sRGB_PremultipliedA Over, sRGB_PremultipliedA Under)
-{
-    return min(Over, Under);
-}
