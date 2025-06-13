@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Users/SolerioX/Documents/IMAC/Stage-Coollab/Launcher-Velopack-Tests/build",
+  "command": "C:\\PROGRA~1\\MICROS~2\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1439~1.335\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\Users\\SolerioX\\Documents\\IMAC\\Stage-Coollab\\Launcher-Velopack-Tests\\velopack\\include /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\main.dir\\main.cpp.obj /FdCMakeFiles\\main.dir\\ /FS -c C:\\Users\\SolerioX\\Documents\\IMAC\\Stage-Coollab\\Launcher-Velopack-Tests\\main.cpp",
+  "file": "C:\\Users\\SolerioX\\Documents\\IMAC\\Stage-Coollab\\Launcher-Velopack-Tests\\main.cpp",
+  "output": "CMakeFiles\\main.dir\\main.cpp.obj"
+}
+]
