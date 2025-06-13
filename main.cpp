@@ -6,7 +6,7 @@
 static void update_app()
 {
     try{
-        Velopack::UpdateManager manager("http://localhost:8000/");
+        Velopack::UpdateManager manager("https://coollab-art.github.io/Launcher-Velopack-Tests/");
         std::wcout << L"Checking for updates..." << std::endl;
 
         auto updInfo = manager.CheckForUpdates();
@@ -55,7 +55,7 @@ int wmain(int argc, wchar_t *argv[], wchar_t *envp[])
 
     // ... your other startup code here
     update_app();
-    std::wcout << "Running version: 1.0.3\n" << std::endl;
+    std::wcout << "Running version: 1.0.4\n" << std::endl;
 
     return 0;
 }
