@@ -1,0 +1,48 @@
+name: Velopack Build & Draft Release
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build-and-package:
+    if: github.event.release.draft == true
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Install CMake
+        uses: jwlawson/actions-setup-cmake@v1
+
+      - name: Build app
+        run: |
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release
+          cmake --build . --config Release
+
+      - name: Download vpk CLI
+        run: |
+          curl -L -o vpk.exe https://github.com/velopack/velopack/releases/latest/download/vpk-windows-x64.exe
+          echo "vpk.exe downloaded"
+        shell: bash
+
+      - name: Run Velopack Pack
+        run: |
+          ./vpk.exe pack --platform win-x64 --output-dir ./build/release
+        shell: bash
+
+      - name: Upload .vpk to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.release.tag_name }}
+          draft: true
+          files: |
+            build/release/*.vpk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

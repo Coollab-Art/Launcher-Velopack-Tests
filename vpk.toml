@@ -1,0 +1,6 @@
+app_id = "com.example.myapp"
+product_name = "MyApp"
+version = "1.0.0"
+
+[linux-x64]
+publish = ["github"]
