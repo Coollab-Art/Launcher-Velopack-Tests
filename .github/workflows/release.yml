@@ -40,12 +40,11 @@ jobs:
           Expand-Archive -Path vpk.zip -DestinationPath vpk
         shell: pwsh
 
-
       - name: Run Velopack Pack
         run: |
-          ./vpk/vpk.exe pack `
+          & "./vpk/vpk.exe" pack `
             --packId $env:PACK_ID `
-            --packVersion ${{ github.event.inputs.tag_name }} `
+            --packVersion v1.0.9 `
             --packDir "$env:BUILD_DIR/Release" `
             --mainExe $env:MAIN_EXE `
             --outputDir $env:RELEASE_DIR
