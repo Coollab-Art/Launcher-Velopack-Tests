@@ -48,11 +48,11 @@ jobs:
       - name: Run Velopack Pack
         run: |
           vpk pack `
-            --packId $env:PACK_ID `
-            --packVersion ${{ github.event.release.tag_name }} `
+            --packId "$env:PACK_ID" `
+            --packVersion "${{ github.event.release.tag_name }}" `
             --packDir "$env:BUILD_DIR/Release" `
-            --mainExe $env:MAIN_EXE `
-            --outputDir $env:RELEASE_DIR
+            --mainExe "$env:MAIN_EXE" `
+            --outputDir "$env:RELEASE_DIR"
         shell: pwsh
 
       - name: Upload .vpk to GitHub Release
