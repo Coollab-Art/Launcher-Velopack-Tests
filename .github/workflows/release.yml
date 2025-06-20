@@ -36,7 +36,7 @@ jobs:
 
       - name: Download and unzip Velopack CLI (Windows .zip)
         run: |
-          curl -L -o vpk.zip https://github.com/velopack/velopack/releases/latest/download/vpk-windows-x64.zip
+          curl -L -o vpk.zip https://github.com/velopack/velopack/archive/refs/tags/0.0.1335-g2ad2c37.zip
           Expand-Archive -Path vpk.zip -DestinationPath vpk
         shell: pwsh
 
