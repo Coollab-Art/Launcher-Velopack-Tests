@@ -1,6 +1,11 @@
 name: Velopack Build & Release
 
 on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag of the release'
+        required: true
   release:
     types: [published]
 
@@ -9,8 +14,8 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Show release context (for debug)
-        run: echo "${{ toJson(github.event.release) }}"
+      - name: Set release tag (manual or event)
+        run: echo "RELEASE_TAG=${{ github.event.release.tag_name || inputs.tag_name }}" >> $GITHUB_ENV
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -31,7 +36,6 @@ jobs:
       - name: Download Velopack CLI
         run: |
           curl -L -o vpk.exe https://github.com/velopack/velopack/releases/latest/download/vpk-windows-x64.exe
-          echo "Velopack CLI downloaded."
         shell: bash
 
       - name: Run Velopack Pack
@@ -42,8 +46,7 @@ jobs:
       - name: Upload .vpk to Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event.release.tag_name }}
-          files: |
-            build/release/*.vpk
+          tag_name: ${{ env.RELEASE_TAG }}
+          files: build/release/*.vpk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

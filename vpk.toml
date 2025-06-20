@@ -1,6 +1,7 @@
-app_id = "com.example.myapp"
-product_name = "MyApp"
-version = "1.0.0"
+app_id = "com.coollab.launcher"
+product_name = "Coollab Launcher"
+version = "1.0.9"
+authors = ["Coollab Team"]
 
-[linux-x64]
+[win-x64]
 publish = ["github"]
