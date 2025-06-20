@@ -1,11 +1,8 @@
 name: Velopack Build & Release
 
 on:
-  workflow_dispatch:
-    inputs:
-      tag_name:
-        description: 'Release tag version (e.g. 1.0.9)'
-        required: true
+  release:
+    types: [published]
 
 jobs:
   build-and-package:
@@ -13,7 +10,7 @@ jobs:
 
     env:
       PACK_ID: Launcher-Velopack-Tests
-      MAIN_EXE: main.exe  # << Replace with your actual entry exe
+      MAIN_EXE: main.exe
       BUILD_DIR: build
       RELEASE_DIR: build/release
 
@@ -52,7 +49,7 @@ jobs:
         run: |
           vpk pack `
             --packId $env:PACK_ID `
-            --packVersion ${{ github.event.inputs.tag_name }} `
+            --packVersion ${{ steps.version.outputs.version }} `
             --packDir "$env:BUILD_DIR/Release" `
             --mainExe $env:MAIN_EXE `
             --outputDir $env:RELEASE_DIR
@@ -61,7 +58,7 @@ jobs:
       - name: Upload .vpk to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event.inputs.tag_name }}
+          tag_name: ${{ github.event.release.tag_name }}
           files: |
             ${{ env.RELEASE_DIR }}/*.vpk
         env:
