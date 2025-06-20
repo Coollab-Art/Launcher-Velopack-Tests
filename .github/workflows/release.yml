@@ -4,19 +4,20 @@ on:
   workflow_dispatch:
     inputs:
       tag_name:
-        description: 'Tag of the release'
+        description: 'Release tag version (e.g. v1.0.9)'
         required: true
-  release:
-    types: [published]
 
 jobs:
   build-and-package:
     runs-on: windows-latest
 
-    steps:
-      - name: Set release tag (manual or event)
-        run: echo "RELEASE_TAG=${{ github.event.release.tag_name || inputs.tag_name }}" >> $GITHUB_ENV
+    env:
+      PACK_ID: Launcher-Velopack-Tests
+      MAIN_EXE: main.exe  # << Replace with your actual entry exe
+      BUILD_DIR: build
+      RELEASE_DIR: build/release
 
+    steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -28,25 +29,32 @@ jobs:
 
       - name: Build the app
         run: |
-          mkdir build
-          cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release
-          cmake --build . --config Release
+          mkdir %BUILD_DIR%
+          cd %BUILD_DIR%
+          cmake .. -DCMAKE_BUILD_TYPE=Releases
+          cmake --build . --config Releases
 
-      - name: Download Velopack CLI
+      - name: Download Velopack CLI (latest ZIP)
         run: |
-          curl -L -o vpk.exe https://github.com/velopack/velopack/releases/latest/download/vpk-windows-x64.exe
+          curl -L -o vpk.zip https://github.com/velopack/velopack/releases/latest/download/vpk-windows-x64.zip
+          tar -xf vpk.zip
         shell: bash
 
       - name: Run Velopack Pack
         run: |
-          ./vpk.exe pack --platform win-x64 --output-dir ./build/release
-        shell: bash
+          ./vpk/vpk.exe pack ^
+            --packId %PACK_ID% ^
+            --packVersion ${{ github.event.inputs.tag_name }} ^
+            --packDir %BUILD_DIR%/Releases ^
+            --mainExe %MAIN_EXE% ^
+            --outputDir %RELEASE_DIR%
+        shell: cmd
 
-      - name: Upload .vpk to Release
+      - name: Upload .vpk to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ env.RELEASE_TAG }}
-          files: build/release/*.vpk
+          tag_name: ${{ github.event.inputs.tag_name }}
+          files: |
+            ${{ env.RELEASE_DIR }}/*.vpk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

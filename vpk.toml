@@ -1,7 +1,11 @@
-app_id = "com.coollab.launcher"
+app_id = "Launcher-Velopack-Tests"
 product_name = "Coollab Launcher"
 version = "1.0.9"
 authors = ["Coollab Team"]
 
 [win-x64]
-publish = ["github"]
+channel = "win"
+output_dir = "build/release"
+pack_dir = "build/Releases"
+main_exe = "main.exe"
+shortcuts = ["Desktop", "StartMenuRoot"]
