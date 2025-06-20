@@ -29,10 +29,10 @@ jobs:
 
       - name: Build the app
         run: |
-          mkdir %BUILD_DIR%
-          cd %BUILD_DIR%
-          cmake .. -DCMAKE_BUILD_TYPE=Releases
-          cmake --build . --config Releases
+          mkdir $env:BUILD_DIR
+          cd $env:BUILD_DIR
+          cmake .. -DCMAKE_BUILD_TYPE=Release
+          cmake --build . --config Release
 
       - name: Download Velopack CLI (latest ZIP)
         run: |
@@ -42,13 +42,13 @@ jobs:
 
       - name: Run Velopack Pack
         run: |
-          ./vpk/vpk.exe pack ^
-            --packId %PACK_ID% ^
-            --packVersion ${{ github.event.inputs.tag_name }} ^
-            --packDir %BUILD_DIR%/Releases ^
-            --mainExe %MAIN_EXE% ^
-            --outputDir %RELEASE_DIR%
-        shell: cmd
+          ./vpk/vpk.exe pack `
+            --packId $env:PACK_ID `
+            --packVersion ${{ github.event.inputs.tag_name }} `
+            --packDir "$env:BUILD_DIR/Release" `
+            --mainExe $env:MAIN_EXE `
+            --outputDir $env:RELEASE_DIR
+        shell: pwsh
 
       - name: Upload .vpk to GitHub Release
         uses: softprops/action-gh-release@v2
