@@ -34,11 +34,12 @@ jobs:
           cmake .. -DCMAKE_BUILD_TYPE=Release
           cmake --build . --config Release
 
-      - name: Download Velopack CLI (latest ZIP)
+      - name: Download and unzip Velopack CLI (Windows .zip)
         run: |
           curl -L -o vpk.zip https://github.com/velopack/velopack/releases/latest/download/vpk-windows-x64.zip
-          tar -xf vpk.zip
-        shell: bash
+          Expand-Archive -Path vpk.zip -DestinationPath vpk
+        shell: pwsh
+
 
       - name: Run Velopack Pack
         run: |
