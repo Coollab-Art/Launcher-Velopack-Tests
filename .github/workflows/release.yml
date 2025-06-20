@@ -1,22 +1,16 @@
-name: Velopack Build & Draft Release
+name: Velopack Build & Release
 
 on:
   release:
-    types: [created]  # Only run when a release (draft or published) is created
+    types: [published]
 
 jobs:
   build-and-package:
     runs-on: windows-latest
 
     steps:
-      - name: Dump GitHub release context (debug)
+      - name: Show release context (for debug)
         run: echo "${{ toJson(github.event.release) }}"
-
-      - name: Skip if not a draft release
-        if: ${{ github.event.release.draft != true }}
-        run: |
-          echo "Skipping: This release is not a draft."
-          exit 0
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -45,11 +39,10 @@ jobs:
           ./vpk.exe pack --platform win-x64 --output-dir ./build/release
         shell: bash
 
-      - name: Upload .vpk to Draft Release
+      - name: Upload .vpk to Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.release.tag_name }}
-          draft: true
           files: |
             build/release/*.vpk
         env:
