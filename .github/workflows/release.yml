@@ -48,22 +48,15 @@ jobs:
         run: echo "${{ env.HOME }}\.dotnet\tools" | Out-File -FilePath $Env:GITHUB_PATH -Encoding utf8 -Append
         shell: pwsh
 
-        env:
-          PACK_ID: myApp
-          BUILD_DIR: build
-          MAIN_EXE: MyApp.exe
-          RELEASE_DIR: release
-          VPK_VERSION: ${{ github.event.release.tag_name }}
-
       - name: Run Velopack Pack
-        shell: pwsh
         run: |
           vpk pack `
             --packId "$env:PACK_ID" `
-            --packVersion "$env:VPK_VERSION" `
+            --packVersion "${{ github.event.release.tag_name }}" `
             --packDir "$env:BUILD_DIR/Release" `
             --mainExe "$env:MAIN_EXE" `
             --outputDir "$env:RELEASE_DIR"
+        shell: pwsh
 
       - name: Upload .vpk to GitHub Release
         uses: softprops/action-gh-release@v2
