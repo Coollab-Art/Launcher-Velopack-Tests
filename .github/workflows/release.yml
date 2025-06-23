@@ -1,8 +1,11 @@
 name: Velopack Build & Release
 
 on:
-  release:
-    types: [published]
+  # release:
+  #   types: [published]
+  push:
+    tags:
+      - "*"
 
 jobs:
   build-and-package:
@@ -46,6 +49,7 @@ jobs:
         shell: pwsh
 
       - name: Run Velopack Pack
+        shell: pwsh
         run: |
           vpk pack `
             --packId "$env:PACK_ID" `
@@ -53,7 +57,6 @@ jobs:
             --packDir "$env:BUILD_DIR/Release" `
             --mainExe "$env:MAIN_EXE" `
             --outputDir "$env:RELEASE_DIR"
-        shell: pwsh
 
       - name: Upload .vpk to GitHub Release
         uses: softprops/action-gh-release@v2
