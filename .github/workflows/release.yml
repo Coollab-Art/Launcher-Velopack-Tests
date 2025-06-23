@@ -49,14 +49,14 @@ jobs:
         shell: pwsh
 
       - name: Run Velopack Pack
+        shell: pwsh
         run: |
           vpk pack `
             --packId "$env:PACK_ID" `
-            --packVersion "${{ github.event.release.tag_name }}" `
+            --packVersion "${{ github.ref_name }}" `
             --packDir "$env:BUILD_DIR/Release" `
             --mainExe "$env:MAIN_EXE" `
             --outputDir "$env:RELEASE_DIR"
-        shell: pwsh
 
       - name: Upload .vpk to GitHub Release
         uses: softprops/action-gh-release@v2
