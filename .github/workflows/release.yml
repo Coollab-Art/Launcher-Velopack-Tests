@@ -79,4 +79,4 @@ jobs:
 
           git add .
           git commit -m "Update gh-pages with release ${{ github.ref_name }}"
-          git push origin HEAD:gh-pages
+          git push origin HEAD:gh-pages --force
