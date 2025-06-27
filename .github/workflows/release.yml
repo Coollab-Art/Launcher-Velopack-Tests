@@ -13,7 +13,6 @@ jobs:
       PACK_ID: Launcher-Velopack-Tests
       MAIN_EXE: main.exe
       BUILD_DIR: build
-      RELEASE_DIR: build/release
 
     steps:
       - name: Checkout code
@@ -54,7 +53,6 @@ jobs:
             --packVersion "${{ github.ref_name }}" `
             --packDir "$env:BUILD_DIR/Release" `
             --mainExe "$env:MAIN_EXE" `
-            --outputDir "$env:RELEASE_DIR"
 
       - name: Upload .vpk to GitHub Release
         uses: softprops/action-gh-release@v2
