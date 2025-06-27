@@ -66,17 +66,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to gh-pages branch
+        shell: pwsh
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
 
           git clone --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
-
           cd gh-pages
+
           Remove-Item * -Recurse -Force -ErrorAction SilentlyContinue
           Copy-Item ../Releases/* -Destination . -Recurse -Force
 
           git add .
           git commit -m "Update gh-pages with release ${{ github.ref_name }}"
-          git push origin gh-pages
-        shell: pwsh
+          git push origin HEAD:gh-pages
